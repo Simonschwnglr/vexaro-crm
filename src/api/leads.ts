@@ -1,6 +1,6 @@
 import type { Lead, LeadFilters, CreateLeadPayload, UpdateLeadPayload, LeadStatus } from '../types/lead';
 
-const BASE_URL = 'https://crm.serveousercontent.com';
+const BASE_URL = 'https://existing-korea-ventures-first.trycloudflare.com';
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
