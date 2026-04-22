@@ -18,11 +18,12 @@ type ModalState =
 export function LeadsPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<LeadStatus | ''>('');
+  const [sortBy, setSortBy] = useState<'status' | 'branche' | 'created_at'>('created_at');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [modal, setModal] = useState<ModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
 
-  const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch }), [statusFilter, debouncedSearch]);
+  const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch, sort: sortBy }), [statusFilter, debouncedSearch, sortBy]);
   const { leads, loading, error, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
 
   const handleSearchChange = (val: string) => {
@@ -106,6 +107,15 @@ export function LeadsPage() {
         >
           <option value="">All Statuses</option>
           {ALL_STATUSES.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+        </select>
+        <select
+          className={styles.filterSelect}
+          value={sortBy}
+          onChange={e => setSortBy(e.target.value as typeof sortBy)}
+        >
+          <option value="created_at">Neueste zuerst</option>
+          <option value="status">Nach Status</option>
+          <option value="branche">Nach Branche</option>
         </select>
       </div>
 

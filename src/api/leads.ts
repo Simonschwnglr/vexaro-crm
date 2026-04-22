@@ -20,6 +20,7 @@ export const leadsApi = {
     const params = new URLSearchParams();
     if (filters?.status) params.set('status', filters.status);
     if (filters?.search) params.set('search', filters.search);
+    if (filters?.sort) params.set('sort', filters.sort);
     const qs = params.toString();
     return request<Lead[]>(`/leads${qs ? `?${qs}` : ''}`);
   },

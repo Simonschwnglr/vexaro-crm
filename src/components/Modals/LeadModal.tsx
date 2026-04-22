@@ -16,14 +16,14 @@ interface Props {
 }
 
 const emptyForm: CreateLeadPayload = {
-  name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '',
+  name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '', branche: '',
 };
 
 export function LeadModal({ lead, mode, onClose, onSave, onStatusChange, onEdit }: Props) {
   const [form, setForm] = useState<CreateLeadPayload>(lead ? {
     name: lead.name, email: lead.email, phone: lead.phone ?? '',
     company: lead.company ?? '', source: lead.source ?? '',
-    status: lead.status, notes: lead.notes ?? '',
+    status: lead.status, notes: lead.notes ?? '', branche: lead.branche ?? '',
   } : emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -124,6 +124,12 @@ export function LeadModal({ lead, mode, onClose, onSave, onStatusChange, onEdit 
                   <span>{lead.source}</span>
                 </div>
               )}
+              {lead.branche && (
+                <div className={styles.viewRow}>
+                  <span className={styles.viewLabel}>Branche</span>
+                  <span>{lead.branche}</span>
+                </div>
+              )}
               {lead.notes && (
                 <div className={styles.viewRow} style={{ alignItems: 'flex-start' }}>
                   <span className={styles.viewLabel}>Notes</span>
@@ -167,6 +173,10 @@ export function LeadModal({ lead, mode, onClose, onSave, onStatusChange, onEdit 
                   <option value="">Select source…</option>
                   {SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
+              </div>
+              <div className={styles.field}>
+                <label>Branche</label>
+                <input value={form.branche} onChange={e => set('branche', e.target.value)} placeholder="z.B. Elektriker, Restaurant" />
               </div>
             </div>
             <div className={styles.field}>

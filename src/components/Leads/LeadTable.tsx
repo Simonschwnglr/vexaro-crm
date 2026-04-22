@@ -42,6 +42,7 @@ export function LeadTable({ leads, onSelect, onDelete, loading }: Props) {
             <th>Name</th>
             <th>Email</th>
             <th>Company</th>
+            <th>Branche</th>
             <th>Status</th>
             <th>Source</th>
             <th>Created</th>
@@ -57,6 +58,7 @@ export function LeadTable({ leads, onSelect, onDelete, loading }: Props) {
               </td>
               <td className={styles.secondary}>{lead.email}</td>
               <td className={styles.secondary}>{lead.company || <span className={styles.muted}>—</span>}</td>
+              <td className={styles.secondary}>{lead.branche || <span className={styles.muted}>—</span>}</td>
               <td onClick={e => e.stopPropagation()}>
                 <StatusBadge status={lead.status} />
               </td>

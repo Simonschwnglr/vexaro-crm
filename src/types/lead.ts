@@ -9,6 +9,7 @@ export interface Lead {
   source?: string;
   status: LeadStatus;
   notes?: string;
+  branche?: string;
   created_at: string;
   updated_at?: string;
 }
@@ -16,6 +17,7 @@ export interface Lead {
 export interface LeadFilters {
   status?: LeadStatus | '';
   search?: string;
+  sort?: 'status' | 'branche' | 'created_at';
 }
 
 export interface CreateLeadPayload {
@@ -26,6 +28,7 @@ export interface CreateLeadPayload {
   source?: string;
   status: LeadStatus;
   notes?: string;
+  branche?: string;
 }
 
 export type UpdateLeadPayload = Partial<CreateLeadPayload>;
