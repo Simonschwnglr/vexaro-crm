@@ -24,7 +24,7 @@ export function LeadsPage() {
   const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
 
   const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch, sort: sortBy }), [statusFilter, debouncedSearch, sortBy]);
-  const { leads, loading, loadingMore, error, pagination, loadMore, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
+  const { leads = [], loading, loadingMore, error, pagination, loadMore, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
 
   const handleSearchChange = (val: string) => {
     setSearch(val);
@@ -49,7 +49,7 @@ export function LeadsPage() {
 
   const counts = useMemo(() => {
     const c: Record<string, number> = {};
-    leads.forEach(l => { c[l.status] = (c[l.status] ?? 0) + 1; });
+    (leads || []).forEach(l => { c[l.status] = (c[l.status] ?? 0) + 1; });
     return c;
   }, [leads]);
 

@@ -28,9 +28,9 @@ export function useLeads(filters: LeadFilters) {
     try {
       const data: LeadsResponse = await leadsApi.list({ ...filters, page, limit: 50 });
       if (append) {
-        setLeads(prev => [...prev, ...data.leads]);
+        setLeads(prev => [...prev, ...(data.leads || [])]);
       } else {
-        setLeads(data.leads);
+        setLeads(data.leads || []);
       }
       setPagination(data.pagination);
     } catch (e) {
