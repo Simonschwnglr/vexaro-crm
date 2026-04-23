@@ -18,12 +18,13 @@ type ModalState =
 export function LeadsPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<LeadStatus | ''>('');
+  const [brancheFilter, setBrancheFilter] = useState('');
   const [sortBy, setSortBy] = useState<'status' | 'branche' | 'created_at'>('created_at');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [modal, setModal] = useState<ModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
 
-  const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch, sort: sortBy }), [statusFilter, debouncedSearch, sortBy]);
+  const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch, sort: sortBy, branche: brancheFilter || undefined }), [statusFilter, debouncedSearch, sortBy, brancheFilter]);
   const { leads = [], loading, loadingMore, error, pagination, loadMore, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
 
   const handleSearchChange = (val: string) => {
@@ -105,9 +106,16 @@ export function LeadsPage() {
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value as LeadStatus | '')}
         >
-          <option value="">All Statuses</option>
+          <option value="">Alle Status</option>
           {ALL_STATUSES.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
         </select>
+        <input
+          className={styles.searchInput}
+          placeholder="Filter Branche..."
+          value={brancheFilter}
+          onChange={e => setBrancheFilter(e.target.value)}
+          style={{ maxWidth: 160 }}
+        />
         <select
           className={styles.filterSelect}
           value={sortBy}
