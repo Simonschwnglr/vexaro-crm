@@ -18,7 +18,7 @@ export interface LeadsResponse {
   };
 }
 
-const BASE_URL = 'https://existing-korea-ventures-first.trycloudflare.com';
+const BASE_URL = 'https://gmt-plugins-retrieved-head.trycloudflare.com';
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
