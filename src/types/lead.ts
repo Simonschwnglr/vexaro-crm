@@ -18,6 +18,8 @@ export interface LeadFilters {
   status?: LeadStatus | '';
   search?: string;
   sort?: 'status' | 'branche' | 'created_at';
+  page?: number;
+  limit?: number;
 }
 
 export interface CreateLeadPayload {

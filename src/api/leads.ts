@@ -1,4 +1,22 @@
-import type { Lead, LeadFilters, CreateLeadPayload, UpdateLeadPayload, LeadStatus } from '../types/lead';
+import type { Lead, CreateLeadPayload, UpdateLeadPayload, LeadStatus } from '../types/lead';
+
+export interface LeadFilters {
+  status?: LeadStatus | '';
+  search?: string;
+  sort?: 'status' | 'branche' | 'created_at';
+  page?: number;
+  limit?: number;
+}
+
+export interface LeadsResponse {
+  leads: Lead[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}
 
 const BASE_URL = 'https://existing-korea-ventures-first.trycloudflare.com';
 
@@ -16,13 +34,15 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const leadsApi = {
-  list(filters?: LeadFilters): Promise<Lead[]> {
+  list(filters?: LeadFilters): Promise<LeadsResponse> {
     const params = new URLSearchParams();
     if (filters?.status) params.set('status', filters.status);
     if (filters?.search) params.set('search', filters.search);
     if (filters?.sort) params.set('sort', filters.sort);
+    if (filters?.page) params.set('page', String(filters.page));
+    if (filters?.limit) params.set('limit', String(filters.limit));
     const qs = params.toString();
-    return request<Lead[]>(`/leads${qs ? `?${qs}` : ''}`);
+    return request<LeadsResponse>(`/leads${qs ? `?${qs}` : ''}`);
   },
 
   get(id: number): Promise<Lead> {
