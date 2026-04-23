@@ -24,7 +24,7 @@ export function LeadsPage() {
   const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
 
   const filters = useMemo(() => ({ status: statusFilter, search: debouncedSearch, sort: sortBy }), [statusFilter, debouncedSearch, sortBy]);
-  const { leads, loading, error, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
+  const { leads, loading, loadingMore, error, pagination, loadMore, createLead, updateLead, updateStatus, deleteLead } = useLeads(filters);
 
   const handleSearchChange = (val: string) => {
     setSearch(val);
@@ -58,7 +58,7 @@ export function LeadsPage() {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Leads</h1>
-          <p className={styles.subtitle}>{leads.length} lead{leads.length !== 1 ? 's' : ''}</p>
+          <p className={styles.subtitle}>{pagination ? `${leads.length} von ${pagination.total}` : leads.length} Leads</p>
         </div>
         <button className={styles.newBtn} onClick={() => setModal({ type: 'create' })}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -134,6 +134,18 @@ export function LeadsPage() {
         onSelect={lead => setModal({ type: 'view', lead })}
         onDelete={lead => setDeleteTarget(lead)}
       />
+
+      {pagination && pagination.page < pagination.pages && (
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <button
+            className={styles.newBtn}
+            onClick={loadMore}
+            disabled={loadingMore}
+          >
+            {loadingMore ? 'Lädt...' : `Mehr laden (${pagination.pages - pagination.page} weitere)`}
+          </button>
+        </div>
+      )}
 
       {modal && (
         <LeadModal
